@@ -5,6 +5,10 @@
 > 配套代码（Python）：`kf_1d_sim.py`（一维标量）、`kf_2d_sim.py`（二维矩阵）。
 > 推荐阅读顺序：先跑通一维代码，看 P 和 K 的动态变化建立直觉，再读本文的矩阵部分。
 >
+> 本文着重参考了视频：
+> 【从放弃到精通！卡尔曼滤波从理论到实践~】 https://www.bilibili.com/video/BV1Rh41117MT/?share_source=copy_web&vd_source=abd42f34b9577b4bf6463ada34819fdb
+> 讲的真的很好，推荐观看
+>
 > 创建日期: 2026-06-04 | 最后更新: 2026-06-06
 
 ---
