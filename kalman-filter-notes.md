@@ -62,11 +62,11 @@ $$
 
 | | 公式（多维） | 一维特例 | 做什么 |
 |---|---|---|---|
-| **① 预测** | $\hat{x}_k^- = F \hat{x}_{k-1} + B u_k$ | $\hat{x}^- = f \cdot \hat{x}_{k-1} + b \cdot u_k$ | 闭眼，按模型猜状态 |
-| **② 预测** | $P_k^- = F P_{k-1} F^\top + Q$ | $P^- = f^2 \cdot P_{k-1} + Q$ | 闭眼后，更不确定了 |
-| **③ 增益** | $K_k =\frac{ P_k^- H^\top}{H P_k^- H^\top + R} $ | $K = \frac{P^-}{P^- + R}$ | 算权重：谁方差小就多信谁 |
-| **④ 更新** | $\hat{x}_k = \hat{x}_k^- + K_k (z_k - H \hat{x}_k^-)$ | $\hat{x} = \hat{x}^- + K(z - \hat{x}^-)$ | 睁眼，加权融合 |
-| **⑤ 更新** | $P_k = (I - K_k H) P_k^-$ | $P = (1 - K) P^-$ | 看了传感器，信心恢复 |
+| **① 预测** | $$\hat{x}_k^- = F \hat{x}_{k-1} + B u_k$$ | $$\hat{x}^- = f \cdot \hat{x}_{k-1} + b \cdot u_k$$ | 闭眼，按模型猜状态 |
+| **② 预测** | $$P_k^- = F P_{k-1} F^\top + Q$$ | $$P^- = f^2 \cdot P_{k-1} + Q$$ | 闭眼后，更不确定了 |
+| **③ 增益** | $$K_k = \frac{ P_k^- H^\top}{H P_k^- H^\top + R}$$ | $$K = \frac{P^-}{P^- + R}$$ | 算权重：谁方差小就多信谁 |
+| **④ 更新** | $$\hat{x}_k = \hat{x}_k^- + K_k (z_k - H \hat{x}_k^-)$$ | $$\hat{x} = \hat{x}^- + K(z - \hat{x}^-)$$ | 睁眼，加权融合 |
+| **⑤ 更新** | $$P_k = (I - K_k H) P_k^-$$ | $$P = (1 - K) P^-$$ | 看了传感器，信心恢复 |
 
 **数据在五个公式间的流动：**
 
@@ -104,14 +104,14 @@ $$
 | $F$ | 状态转移矩阵（n×n） |
 | $B$ | 控制矩阵（n×p） |
 | $u_k$ | 控制输入（p×1） |
-| $w_k$ | 过程噪声，$w_k \sim \mathcal{N}(0, Q)$ |
+| $w_k$ | 过程噪声<br>$$w_k \sim \mathcal{N}(0, Q)$$ |
 | $Q$ | 过程噪声协方差矩阵（n×n） |
 | $z_k$ | 传感器观测值（m×1） |
 | $H$ | 观测矩阵（m×n），把状态映射到观测空间 |
-| $v_k$ | 观测噪声，$v_k \sim \mathcal{N}(0, R)$ |
+| $v_k$ | 观测噪声<br>$$v_k \sim \mathcal{N}(0, R)$$ |
 | $R$ | 观测噪声协方差矩阵（m×m） |
-| $P_k$ | **后验**估计误差协方差，$P_k = \mathrm{E}[(x_k - \hat{x}_k)(x_k - \hat{x}_k)^\top]$ |
-| $P_k^-$ | **先验**估计误差协方差，$P_k^- = \mathrm{E}[(x_k - \hat{x}_k^-)(x_k - \hat{x}_k^-)^\top]$ |
+| $P_k$ | **后验**估计误差协方差<br>$$P_k = \mathrm{E}[(x_k - \hat{x}_k)(x_k - \hat{x}_k)^\top]$$ |
+| $P_k^-$ | **先验**估计误差协方差<br>$$P_k^- = \mathrm{E}[(x_k - \hat{x}_k^-)(x_k - \hat{x}_k^-)^\top]$$ |
 | $K_k$ | 卡尔曼增益（n×m） |
 | $I$ | 单位矩阵（n×n） |
 
@@ -493,7 +493,13 @@ R = np.var(static_readings)        # 方差 = R
 
 ### 5.3 第二步：调 q（Q 矩阵中唯一的自由参数）
 
-对于匀速模型 $F = \begin{bmatrix} 1 & \Delta t \\ 0 & 1 \end{bmatrix}$，Q 的结构由离散白噪声加速模型推导：
+对于匀速模型：
+
+$$
+F = \begin{bmatrix} 1 & \Delta t \\ 0 & 1 \end{bmatrix}
+$$
+
+Q 的结构由离散白噪声加速模型推导：
 
 $$
 Q = q \cdot \begin{bmatrix} \frac{\Delta t^4}{4} & \frac{\Delta t^3}{2} \\ \frac{\Delta t^3}{2} & \Delta t^2 \end{bmatrix}
